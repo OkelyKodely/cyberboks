@@ -1,8 +1,7 @@
-''' <summary>
-''' This is the main type for your game
-''' </summary>
+Imports Microsoft.Xna.Framework
+
 Public Class Game1
-    Inherits Microsoft.Xna.Framework.Game
+    Inherits Game
 
     Public Class UpZapp
         Inherits Shape
@@ -76,7 +75,6 @@ Public Class Game1
         Public vector As New Vector2(0, 0)
     End Class
 
-    Private cheat As Boolean = True
     Private rooms As String()
     Private graphics As GraphicsDeviceManager
     Private spriteBatch As SpriteBatch
@@ -114,34 +112,18 @@ Public Class Game1
         Content.RootDirectory = "Content"
     End Sub
 
-    ''' <summary>
-    ''' Allows the game to perform any initialization it needs to before starting to run.
-    ''' This is where it can query for any required services and load any non-graphic
-    ''' related content.  Calling MyBase.Initialize will enumerate through any components
-    ''' and initialize them as well.
-    ''' </summary>
     Protected Overrides Sub Initialize()
-        ' TODO: Add your initialization logic here
         MyBase.Initialize()
     End Sub
 
-    ''' <summary>
-    ''' LoadContent will be called once per game and is the place to load
-    ''' all of your content.
-    ''' </summary>
     Protected Overrides Sub LoadContent()
-        ' Create a new SpriteBatch, which can be used to draw textures.
         spriteBatch = New SpriteBatch(GraphicsDevice)
 
-        ' TODO: use Me.Content to load your game content here
-        ' Somewhere in your LoadContent() method:
         pixel = New Texture2D(Me.GraphicsDevice, 1, 1, False, SurfaceFormat.Color)
         pixel.SetData(New Color() {Color.White})
 
-        ' Create a new SpriteBatch, which can be used to draw textures.
         spriteBatch = New SpriteBatch(GraphicsDevice)
 
-        ' TODO: use this.Content to load your game content here
         circl = Content.Load(Of Texture2D)("circle")
         blok1 = Content.Load(Of Texture2D)("block1")
         blok2 = Content.Load(Of Texture2D)("block2")
@@ -1677,21 +1659,10 @@ Public Class Game1
         blues.Add(blue)
     End Sub
 
-    ''' <summary>
-    ''' UnloadContent will be called once per game and is the place to unload
-    ''' all content.
-    ''' </summary>
     Protected Overrides Sub UnloadContent()
-        ' TODO: Unload any non ContentManager content here
     End Sub
 
-    ''' <summary>
-    ''' Allows the game to run logic such as updating the world,
-    ''' checking for collisions, gathering input, and playing audio.
-    ''' </summary>
-    ''' <param name="gameTime">Provides a snapshot of timing values.</param>
     Protected Overrides Sub Update(ByVal gameTime As GameTime)
-        ' Allows the game to exit
         If GamePad.GetState(PlayerIndex.One).Buttons.Back = ButtonState.Pressed Then
             Me.Exit()
         End If
@@ -1750,7 +1721,6 @@ Public Class Game1
             loadlevel = False
         End If
 
-        ' Before handling input
         _currentKeyboardState = Keyboard.GetState()
 
         If (_currentKeyboardState.IsKeyDown(Keys.Up) And
@@ -1831,6 +1801,7 @@ Public Class Game1
                 End If
             End If
         End If
+
         If _currentKeyboardState.IsKeyDown(Keys.Down) And
            _previousKeyboardState.IsKeyUp(Keys.Down) Then
             Dim ispushed As Boolean = False
@@ -1909,7 +1880,7 @@ Public Class Game1
                 If bricks(i).X = player.X And bricks(i).Y = player.Y + 1 Then
                     cant = True
                 End If
-            next
+            Next
             If Not cant And Not cnt Then
                 If Not stuck Then
                     player.prevX = player.X
@@ -1919,6 +1890,7 @@ Public Class Game1
                 End If
             End If
         End If
+
         If _currentKeyboardState.IsKeyDown(Keys.Left) And
            _previousKeyboardState.IsKeyUp(Keys.Left) Then
             Dim ispushed As Boolean = False
@@ -1997,6 +1969,7 @@ Public Class Game1
                 End If
             End If
         End If
+
         If _currentKeyboardState.IsKeyDown(Keys.Right) AndAlso
                _previousKeyboardState.IsKeyUp(Keys.Right) Then
             Dim ispushed As Boolean = False
@@ -2074,6 +2047,7 @@ Public Class Game1
                 End If
             End If
         End If
+
         If _currentKeyboardState.IsKeyUp(Keys.Up) And
             _currentKeyboardState.IsKeyUp(Keys.Down) And
             _currentKeyboardState.IsKeyUp(Keys.Left) And
@@ -2152,7 +2126,6 @@ Public Class Game1
                 player.vector.Y = player.Y * 39
             End If
         Next
-
         For i As Integer = 0 To yellows.Count - 1
             If player.X = yellows(i).X AndAlso player.Y = yellows(i).Y Then
                 player.X = player.prevX
@@ -2161,7 +2134,6 @@ Public Class Game1
                 player.vector.Y = player.Y * 39
             End If
         Next
-
         For i As Integer = 0 To blues.Count - 1
             If player.X = blues(i).X AndAlso player.Y = blues(i).Y Then
                 player.X = player.prevX
@@ -2170,7 +2142,6 @@ Public Class Game1
                 player.vector.Y = player.Y * 39
             End If
         Next
-
         For i As Integer = 0 To upmovers.Count - 1
             If player.X = upmovers(i).X AndAlso player.Y = upmovers(i).Y Then
                 player.X = player.prevX
@@ -2179,7 +2150,6 @@ Public Class Game1
                 player.vector.Y = player.Y * 39
             End If
         Next
-
         For i As Integer = 0 To downmovers.Count - 1
             If player.X = downmovers(i).X AndAlso player.Y = downmovers(i).Y Then
                 player.X = player.prevX
@@ -2188,7 +2158,6 @@ Public Class Game1
                 player.vector.Y = player.Y * 39
             End If
         Next
-
         For i As Integer = 0 To leftmovers.Count - 1
             If player.X = leftmovers(i).X AndAlso player.Y = leftmovers(i).Y Then
                 player.X = player.prevX
@@ -2197,7 +2166,6 @@ Public Class Game1
                 player.vector.Y = player.Y * 39
             End If
         Next
-
         For i As Integer = 0 To rightmovers.Count - 1
             If player.X = rightmovers(i).X AndAlso player.Y = rightmovers(i).Y Then
                 player.X = player.prevX
@@ -2209,7 +2177,6 @@ Public Class Game1
 
         If _currentKeyboardState.IsKeyDown(Keys.R) And
             _previousKeyboardState.IsKeyUp(Keys.R) And
-            cheat And
             attempts > 0 Then
             If (currentLevel = 1) Then
                 Level1()
@@ -2271,7 +2238,6 @@ Public Class Game1
             player.vector.Y = player.Y * 39
         End If
 
-        ' After handling input
         _previousKeyboardState = _currentKeyboardState
 
         If Not (player.X = 7 AndAlso player.Y = -1) Then
@@ -2294,7 +2260,6 @@ Public Class Game1
         End If
 
         If currentLevel = 18 Then
-
             player.X = 7
             player.Y = -1
 
@@ -2302,12 +2267,9 @@ Public Class Game1
             player.vector.Y = player.Y * 39
 
             drawwin = True
-
         End If
 
-        ' TODO: Add your update logic here
         MyBase.Update(gameTime)
-
     End Sub
 
     Public Function pushRM(player As Circle, shp As Shape, x As Integer, y As Integer) As Boolean
@@ -3745,76 +3707,64 @@ Public Class Game1
         Return ispushed
     End Function
 
-    ''' <summary>
-    ''' This is called when the game should draw itself.
-    ''' </summary>
-    ''' <param name="gameTime">Provides a snapshot of timing values.</param>
     Protected Overrides Sub Draw(ByVal gameTime As GameTime)
-        GraphicsDevice.Clear(Color.Indigo)
-
-        ' TODO: Add your drawing code here
+        GraphicsDevice.Clear(Color.Black)
         spriteBatch.Begin()
-        ' Create any rectangle you want. Here we'll use the TitleSafeArea for fun.
         Dim titleSafeRectangle As Rectangle = New Rectangle(48, 58, 590, 396)
-        ' Call our method (also defined in this blog-post)
         DrawBorder(titleSafeRectangle, 1, Color.White)
-        ' Create any rectangle you want. Here we'll use the TitleSafeArea for fun.
         Dim exit_ As Rectangle = New Rectangle(324, 58, 39, 1)
-        ' Call our method (also defined in this blog-post)
-        DrawBorder(exit_, 1, Color.Indigo)
+        DrawBorder(exit_, 1, Color.Black)
         Dim exitLeft As Rectangle = New Rectangle(323, 0, 1, 58)
-        ' Call our method (also defined in this blog-post)
         DrawBorder(exitLeft, 1, Color.White)
         Dim exitRight As Rectangle = New Rectangle(363, 0, 1, 58)
-        ' Call our method (also defined in this blog-post)
         DrawBorder(exitRight, 1, Color.White)
         For i = 0 To bricks.Count - 1
-            spriteBatch.Draw(brik, bricks(i).vector + New Vector2(50, 60), New Rectangle(0, 0, 31, 31), Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
+            spriteBatch.Draw(brik, bricks(i).vector + New Vector2(50, 60), Nothing, Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
         Next
         For i = 0 To greens.Count - 1
-            spriteBatch.Draw(gren, greens(i).vector + New Vector2(50, 60), New Rectangle(0, 0, 31, 31), Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
+            spriteBatch.Draw(gren, greens(i).vector + New Vector2(50, 60), Nothing, Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
         Next
         For i = 0 To blues.Count - 1
-            spriteBatch.Draw(blu, blues(i).vector + New Vector2(50, 60), New Rectangle(0, 0, 31, 31), Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
+            spriteBatch.Draw(blu, blues(i).vector + New Vector2(50, 60), Nothing, Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
         Next
         For i = 0 To yellows.Count - 1
-            spriteBatch.Draw(yelow, yellows(i).vector + New Vector2(50, 60), New Rectangle(0, 0, 31, 31), Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
+            spriteBatch.Draw(yelow, yellows(i).vector + New Vector2(50, 60), Nothing, Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
         Next
         For i = 0 To downmovers.Count - 1
-            spriteBatch.Draw(downMuver, downmovers(i).vector + New Vector2(50, 60), New Rectangle(0, 0, 31, 31), Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
+            spriteBatch.Draw(downMuver, downmovers(i).vector + New Vector2(50, 60), Nothing, Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
         Next
         For i = 0 To upmovers.Count - 1
-            spriteBatch.Draw(upMuver, upmovers(i).vector + New Vector2(50, 60), New Rectangle(0, 0, 31, 31), Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
+            spriteBatch.Draw(upMuver, upmovers(i).vector + New Vector2(50, 60), Nothing, Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
         Next
         For i = 0 To rightmovers.Count - 1
-            spriteBatch.Draw(rightMuver, rightmovers(i).vector + New Vector2(50, 60), New Rectangle(0, 0, 31, 31), Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
+            spriteBatch.Draw(rightMuver, rightmovers(i).vector + New Vector2(50, 60), Nothing, Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
         Next
         For i = 0 To leftmovers.Count - 1
-            spriteBatch.Draw(leftMuver, leftmovers(i).vector + New Vector2(50, 60), New Rectangle(0, 0, 31, 31), Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
+            spriteBatch.Draw(leftMuver, leftmovers(i).vector + New Vector2(50, 60), Nothing, Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
         Next
         For i = 0 To upzapps.Count - 1
-            spriteBatch.Draw(upzap, upzapps(i).vector + New Vector2(50, 60), New Rectangle(0, 0, 31, 31), Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
+            spriteBatch.Draw(upzap, upzapps(i).vector + New Vector2(50, 60), Nothing, Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
         Next
         For i = 0 To downzapps.Count - 1
-            spriteBatch.Draw(downzap, downzapps(i).vector + New Vector2(50, 60), New Rectangle(0, 0, 31, 31), Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
+            spriteBatch.Draw(downzap, downzapps(i).vector + New Vector2(50, 60), Nothing, Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
         Next
         For i = 0 To leftzapps.Count - 1
-            spriteBatch.Draw(leftzap, leftzapps(i).vector + New Vector2(50, 60), New Rectangle(0, 0, 31, 31), Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
+            spriteBatch.Draw(leftzap, leftzapps(i).vector + New Vector2(50, 60), Nothing, Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
         Next
         For i = 0 To rightzapps.Count - 1
-            spriteBatch.Draw(rightzap, rightzapps(i).vector + New Vector2(50, 60), New Rectangle(0, 0, 31, 31), Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
+            spriteBatch.Draw(rightzap, rightzapps(i).vector + New Vector2(50, 60), Nothing, Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
         Next
         For i = 0 To block1s.Count - 1
-            spriteBatch.Draw(blok1, block1s(i).vector + New Vector2(50, 60), New Rectangle(0, 0, 31, 31), Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
+            spriteBatch.Draw(blok1, block1s(i).vector + New Vector2(50, 60), Nothing, Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
         Next
         For i = 0 To block2s.Count - 1
-            spriteBatch.Draw(blok2, block2s(i).vector + New Vector2(50, 60), New Rectangle(0, 0, 31, 31), Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
+            spriteBatch.Draw(blok2, block2s(i).vector + New Vector2(50, 60), Nothing, Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
         Next
-        spriteBatch.Draw(circl, player.vector + New Vector2(50, 60), New Rectangle(0, 0, 31, 31), Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
+        spriteBatch.Draw(circl, player.vector + New Vector2(50, 60), Nothing, Color.White, 0, Vector2.Zero, 1.3F, SpriteEffects.None, 0.0F)
         If drawwin Then
             spriteBatch.DrawString(spriteFont, "You Won.", New Vector2(0, 0), Color.White)
         Else
-            'spriteBatch.DrawString(spriteFont, "You Won.", New Vector2(0, 0), Color.Indigo)
+            spriteBatch.DrawString(spriteFont, "You Won.", New Vector2(0, 0), Color.Black)
             spriteBatch.DrawString(cyberFont, "Cyberbox", New Vector2(376, 7), Color.Silver)
             If Not drawwin Then
                 spriteBatch.DrawString(spriteFont2, "Press 'R' To Retry Level", New Vector2(101, 10), Color.White)
@@ -3824,36 +3774,23 @@ Public Class Game1
             If currentLevel = 18 Then
                 roomNumberIndex = roomNumberIndex - 1
             End If
-            spriteBatch.DrawString(spriteFont3, "Room " + currentLevel.ToString()+ ": " + rooms(roomNumberIndex), New Vector2(250, 470), Color.White)
+            spriteBatch.DrawString(spriteFont3, "Room " + currentLevel.ToString() + ": " + rooms(roomNumberIndex), New Vector2(250, 470), Color.White)
         End If
         spriteBatch.End()
         MyBase.Draw(gameTime)
     End Sub
 
-    ' <summary>
-    ' Will draw a border (hollow rectangle) of the given 'thicknessOfBorder' (in pixels)
-    ' of the specified color.
-    '
-    ' By Sean Colombo, from http://bluelinegamestudios.com/blog
-    ' </summary>
-    ' <param name="rectangleToDraw"></param>
-    ' <param name="thicknessOfBorder"></param>
     Private Sub DrawBorder(rectangleToDraw As Rectangle, thicknessOfBorder As Integer, borderColor As Color)
-        ' Draw top line
         spriteBatch.Draw(pixel, New Rectangle(rectangleToDraw.X, rectangleToDraw.Y, rectangleToDraw.Width, thicknessOfBorder), borderColor)
-
-        ' Draw left line
         spriteBatch.Draw(pixel, New Rectangle(rectangleToDraw.X, rectangleToDraw.Y, thicknessOfBorder, rectangleToDraw.Height), borderColor)
-
-        ' Draw right line
         spriteBatch.Draw(pixel, New Rectangle((rectangleToDraw.X + rectangleToDraw.Width - thicknessOfBorder),
                                             rectangleToDraw.Y,
                                             thicknessOfBorder,
                                             rectangleToDraw.Height), borderColor)
-        ' Draw bottom line
         spriteBatch.Draw(pixel, New Rectangle(rectangleToDraw.X,
                                             rectangleToDraw.Y + rectangleToDraw.Height - thicknessOfBorder,
                                             rectangleToDraw.Width,
                                             thicknessOfBorder), borderColor)
     End Sub
+
 End Class
